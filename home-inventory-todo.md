@@ -14,10 +14,10 @@ Get the skeleton up so you can ship code on day one of real feature work.
 - [x] Create a private GitHub monorepo: `/api`, `/web`, `/mobile`, `/infra`, `/shared`
 - [x] Set up [pnpm workspaces](https://pnpm.io/workspaces) so shared TS types work across packages
 - [x] Add root `.editorconfig`, `.prettierrc`, ESLint config shared across packages
-- [ ] Configure GitHub Actions: lint + typecheck on every PR (no tests yet, that's fine)
-- [ ] Write a one-page `README.md` with the architecture summary and local-dev steps (update as you go)
-- [ ] Pick a project management tool — GitHub Projects is enough; don't over-engineer
-- [ ] Create three milestones in GH: `MVP-Alpha`, `MVP-Beta`, `MVP-Launch`
+- [x] Configure GitHub Actions: lint + typecheck on every PR (no tests yet, that's fine)
+- [x] Write a one-page `README.md` with the architecture summary and local-dev steps (update as you go)
+- [x] Pick a project management tool — GitHub Projects is enough; don't over-engineer
+- [x] Create three milestones in GH: `MVP-Alpha`, `MVP-Beta`, `MVP-Launch`
 
 ---
 
