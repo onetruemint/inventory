@@ -1,0 +1,44 @@
+name: otm-inventory
+
+# Use postgres/example user/password credentials
+
+services:
+  db:
+    container_name: db
+    image: ${POSTGRES_IMG}
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+
+  adminer:
+    container_name: adminer
+    image: ${ADMINER_IMG}
+    restart: always
+    ports:
+      - 8080:8080
+
+  redis:
+    container_name: redis
+    image: ${REDIS_IMG}
+    restart: always
+    ports:
+      - 6379:6379
+
+  caddy:
+    container_name: caddy
+    image: ${CADDY_IMG}
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:
