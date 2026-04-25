@@ -25,8 +25,8 @@ Get the skeleton up so you can ship code on day one of real feature work.
 
 End state: `docker compose up` gives you Postgres, Redis, and a Fastify server that returns `{ok:true}` on `/v1/health`.
 
-- [ ] Write `docker-compose.yml` with `postgres:16`, `redis:7`, `api` (Node 20), `worker`, `caddy`
-- [ ] Add volumes for Postgres data and Caddy certs
+- [x] Write `docker-compose.yml` with `postgres:16`, `redis:7`, `api` (Node 20), `worker`, `caddy`
+- [x] Add volumes for Postgres data and Caddy certs
 - [ ] Add `.env.example` and a loader (`dotenv` or Fastify's env plugin) — never commit real `.env`
 - [ ] Scaffold `/api`: Fastify + TypeScript + `tsx` for dev reload
 - [ ] Install Prisma; create initial schema file (empty models for now)
