@@ -7,7 +7,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 // Models are added per phase:
@@ -15,3 +14,7 @@ datasource db {
 //   Phase 3 — Product, InventoryItem, UsageEvent
 //   Phase 4 — Reminder
 //   Phase 5 — NotificationChannel
+
+model User {
+  id String @id @default(cuid())
+}
