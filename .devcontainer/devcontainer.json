@@ -16,7 +16,18 @@
         "anthropic.claude-code",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "prisma.prisma",
+        "usernamehw.errorlens",
+        "bradlc.vscode-tailwindcss",
+        "msjsdiag.vscode-react-native",
+        "vitest.explorer",
+        "humao.rest-client",
+        "ms-azuretools.vscode-docker",
+        "github.vscode-github-actions",
+        "wix.vscode-import-cost",
+        "yoavbls.pretty-ts-errors",
+        "dsznajder.es7-react-js-snippets"
       ],
       "settings": {
         "editor.formatOnSave": true,
