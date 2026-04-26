@@ -1,0 +1,17 @@
+// Prisma schema — source of truth for the database structure.
+// Edit models here, then run `prisma migrate dev` to generate SQL and update the client.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Models are added per phase:
+//   Phase 2 — User, Household, HouseholdMember
+//   Phase 3 — Product, InventoryItem, UsageEvent
+//   Phase 4 — Reminder
+//   Phase 5 — NotificationChannel
