@@ -20,6 +20,9 @@
     "pretest": "pnpm run compile",
     "posttest": "pnpm run lint"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["@prisma/engines", "esbuild", "prisma"]
+  },
   "devDependencies": {
     "@types/node": "^22.7.5",
     "gts": "^7.0.0",
