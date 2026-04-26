@@ -9,5 +9,13 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": [
+    "api/**/*.ts",
+    "infra/**/*.ts",
+    "mobile/**/*.ts",
+    "shared/**/*.ts",
+    "src/**/*.ts",
+    "web/**/*.ts",
+    "test/**/*.ts"
+  ]
 }
