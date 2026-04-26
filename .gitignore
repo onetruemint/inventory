@@ -59,4 +59,6 @@ __fixtures__/custom-modules-dir/patches/
 
 build
 .pnpm-store
-.env
+**/.env
+**/.env.*
+!.env**.example
