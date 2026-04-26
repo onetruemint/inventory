@@ -27,15 +27,18 @@ End state: `docker compose up` gives you Postgres, Redis, and a Fastify server t
 
 - [x] Write `docker-compose.yml` with `postgres:16`, `redis:7`, `api` (Node 20), `worker`, `caddy`
 - [x] Add volumes for Postgres data and Caddy certs
-- [ ] Add `.env.example` and a loader (`dotenv` or Fastify's env plugin) — never commit real `.env`
-- [ ] Scaffold `/api`: Fastify + TypeScript + `tsx` for dev reload
+- [x] Add `.env.example` and a loader (`dotenv` or Fastify's env plugin) — never commit real `.env`
+- [x] Scaffold `/api`: Fastify + TypeScript + `tsx` for dev reload
 - [ ] Install Prisma; create initial schema file (empty models for now)
 - [ ] Wire Prisma client; run `prisma migrate dev` against local Postgres
+- [ ] Add PgBouncer to `docker-compose.yml` and point Prisma's `DATABASE_URL` at it — Prisma opens one connection per query worker and will exhaust Postgres connections under any real load without a pooler
+- [ ] Configure Redis with AOF persistence (`appendonly yes`) so BullMQ jobs survive a Redis restart
 - [ ] Add `/v1/health` endpoint
 - [ ] Add `@fastify/swagger` + `@fastify/swagger-ui` — OpenAPI docs live at `/docs`
 - [ ] Add `@fastify/cors`, `@fastify/helmet`, `@fastify/rate-limit`
 - [ ] Add structured logging (Pino is built in; set log levels per env)
 - [ ] Configure Caddy to reverse-proxy `api.localhost` → `api:3000` with local TLS
+- [ ] Scaffold Vitest + Supertest; write one smoke test against `/v1/health` — sets up the test harness before you write real business logic
 - [ ] Commit; verify `curl https://api.localhost/v1/health` works
 
 ---
@@ -48,7 +51,7 @@ End state: users can register, log in, get a JWT, and every request is scoped to
 - [ ] Migration + seed script that creates a test user + household
 - [ ] `POST /v1/auth/register` — creates user + default household in one transaction
 - [ ] `POST /v1/auth/login` — returns access + refresh token pair
-- [ ] `POST /v1/auth/refresh`
+- [ ] `POST /v1/auth/refresh` — rotate on use: issue a new refresh token, invalidate the old one; a reused refresh token should invalidate the entire family (detect theft)
 - [ ] `POST /v1/auth/logout` — invalidates refresh token (store refresh tokens in Redis)
 - [ ] Fastify `preHandler` that verifies JWT, attaches `req.user` and `req.householdId`
 - [ ] Household-scoping helper: every query goes through a function that injects `household_id` — don't rely on developers remembering
@@ -132,8 +135,11 @@ End state: a usable web UI covering every core flow. Design can be plain — Tai
 
 - [ ] Scaffold `/web`: Vite + React + TypeScript + React Router
 - [ ] Install Tailwind + [shadcn/ui](https://ui.shadcn.com) (copy-in components, no lock-in)
+- [ ] Decide on client-side state management (Zustand recommended — lightweight, no boilerplate); you need this before building protected routes and auth state
+- [ ] Lock the OpenAPI spec shape: mark the backend's routes as stable before generating the shared client — mid-Phase-7 endpoint changes will break mobile
 - [ ] Generate a typed API client from the backend's OpenAPI spec (`openapi-typescript` + `openapi-fetch`)
 - [ ] Put the generated types in `/shared` so mobile uses the same client
+- [ ] Add Sentry to the web app now — you want error visibility before handing it to beta users, not after
 - [ ] Auth screens: login, register, forgot password
 - [ ] Protected route wrapper; token refresh on 401
 - [ ] Dashboard: low-stock count, expiring count, recent activity
@@ -156,7 +162,9 @@ End state: a usable web UI covering every core flow. Design can be plain — Tai
 End state: iOS + Android app with native barcode scanning, push notifications, and the core inventory flows.
 
 - [ ] Scaffold `/mobile` with Expo (SDK 51+), TypeScript, Expo Router
+- [ ] Configure EAS Build (`eas build:configure`) early — building for a real device requires it; Expo Go is not a substitute for validating native modules like `expo-camera`
 - [ ] Reuse the generated API client from `/shared`
+- [ ] Add Sentry to the mobile app now (same rationale as web — errors before beta are invisible without it)
 - [ ] Auth screens (login, register) with secure token storage ([expo-secure-store](https://docs.expo.dev/versions/latest/sdk/securestore/))
 - [ ] Bottom tab nav: Scan • Inventory • Reminders • Settings
 - [ ] Scan tab: `expo-camera` barcode scanner → confirm quantity/location → save. This is the hero flow; make it fast (< 3 taps from app open to item saved)
@@ -176,7 +184,7 @@ End state: iOS + Android app with native barcode scanning, push notifications, a
 
 End state: not embarrassing under light adversarial conditions.
 
-- [ ] Add [Sentry](https://sentry.io) to api, web, and mobile (free tier)
+- [ ] Add [Sentry](https://sentry.io) to the **api** (web + mobile Sentry was added in Phases 6–7)
 - [ ] Add uptime monitoring (UptimeRobot or Better Stack) against `/v1/health`
 - [ ] Confirm rate limits make sense per endpoint — auth, scan, and writes should be stricter than reads
 - [ ] Audit SQL: every household-scoped query must filter by `household_id` — write a Prisma middleware to enforce this and log violations
@@ -199,7 +207,7 @@ End state: users at your real domain, TLS, monitoring, and you can sleep at nigh
 - [ ] Provision with a short bash script (or [Dokploy](https://dokploy.com) / [Coolify](https://coolify.io) if you want a GUI)
 - [ ] DNS: point your domain at the host; configure Caddy with production TLS
 - [ ] Set real production env vars (secrets via Doppler or the host's secret manager, not in `.env`)
-- [ ] Run migrations against prod DB
+- [ ] Run migrations against prod DB — for any migration that adds a NOT NULL column or drops/renames one, ensure it's backward-compatible with the running code before deploying (expand/contract pattern); a bad migration on a live DB is hard to undo
 - [ ] Configure daily automated backups to off-host storage (Backblaze B2 is cheap)
 - [ ] Deploy pipeline: GH Action builds images, SSHes to host, `docker compose pull && up -d`
 - [ ] Set up staging env on same host (different compose project, different subdomain) so you can test deploys
