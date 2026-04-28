@@ -31,7 +31,7 @@ End state: `docker compose up` gives you Postgres, Redis, and a Fastify server t
 - [x] Scaffold `/api`: Fastify + TypeScript + `tsx` for dev reload
 - [x] Install Prisma; create initial schema file (empty models for now)
 - [x] Wire Prisma client; run `prisma migrate dev` against local Postgres
-- [ ] Add PgBouncer to `docker-compose.yml` and point Prisma's `DATABASE_URL` at it — Prisma opens one connection per query worker and will exhaust Postgres connections under any real load without a pooler
+- [x] Add PgBouncer to `docker-compose.yml` and point Prisma's `DATABASE_URL` at it — Prisma opens one connection per query worker and will exhaust Postgres connections under any real load without a pooler
 - [ ] Configure Redis with AOF persistence (`appendonly yes`) so BullMQ jobs survive a Redis restart
 - [ ] Add `/v1/health` endpoint
 - [ ] Add `@fastify/swagger` + `@fastify/swagger-ui` — OpenAPI docs live at `/docs`
