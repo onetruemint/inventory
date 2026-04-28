@@ -8,7 +8,7 @@ Docker Compose configuration for local backing services.
 |-----------|------------------------|------------|------------------------------|
 | `db`      | postgres:18            | 5432       | Data volume: `postgres_data` |
 | `adminer` | adminer:5.4.2          | 8080       | DB admin UI                  |
-| `redis`   | redis:8.6.2            | 6379       | AOF persistence pending      |
+| `redis`   | redis:8.6.2            | 6379       | AOF persistence enabled; data volume: `redis_data` |
 | `caddy`   | caddy:2.11.2-alpine    | 80, 443    | Reverse proxy; TLS config pending |
 
 PgBouncer is not yet in the compose file — it will be added on branch `2-add-pgbouncer-and-redis-aof-persistence`.
