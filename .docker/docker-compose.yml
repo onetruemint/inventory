@@ -3,13 +3,24 @@ name: otm-inventory
 # Use postgres/example user/password credentials
 
 services:
+  db_pool:
+    container_name: db_pool
+    image: ${PGBOUNCER_IMG}
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      DB_USER: ${POSTGRES_USER}
+      DB_NAME: ${POSTGRES_DB}
+      DB_PASSWORD: ${POSTGRES_PASS}
+      DB_HOST: db
+    depends_on:
+      - db
   db:
     container_name: db
     image: ${POSTGRES_IMG}
     restart: always
     shm_size: 128mb
-    ports:
-      - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql
     environment:
