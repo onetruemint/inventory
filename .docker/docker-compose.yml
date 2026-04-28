@@ -39,8 +39,11 @@ services:
     container_name: redis
     image: ${REDIS_IMG}
     restart: always
+    command: redis-server --appendonly yes
     ports:
       - 6379:6379
+    volumes:
+      - redis_data:/data
 
   caddy:
     container_name: caddy
@@ -55,5 +58,6 @@ services:
 
 volumes:
   postgres_data:
+  redis_data:
   caddy_data:
   caddy_config:
