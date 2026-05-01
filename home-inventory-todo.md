@@ -39,7 +39,7 @@ End state: `docker compose up` gives you Postgres, Redis, and a Fastify server t
 - [x] Add structured logging (Pino is built in; set log levels per env)
 - [x] Configure Caddy to reverse-proxy `api.localhost` → `api:3000` with local TLS
 - [x] Scaffold Vitest + Supertest; write one smoke test against `/v1/health` — sets up the test harness before you write real business logic
-- [ ] Commit; verify `curl https://api.localhost/v1/health` works
+- [x] Commit; verify `curl https://api.localhost/v1/health` works
 
 ---
 
@@ -47,8 +47,8 @@ End state: `docker compose up` gives you Postgres, Redis, and a Fastify server t
 
 End state: users can register, log in, get a JWT, and every request is scoped to their household.
 
-- [ ] Prisma models: `User`, `Household`, `HouseholdMember` (with role enum)
-- [ ] Migration + seed script that creates a test user + household
+- [x] Prisma models: `User`, `Household`, `HouseholdMember` (with role enum)
+- [x] Migration + seed script that creates a test user + household
 - [ ] `POST /v1/auth/register` — creates user + default household in one transaction
 - [ ] `POST /v1/auth/login` — returns access + refresh token pair
 - [ ] `POST /v1/auth/refresh` — rotate on use: issue a new refresh token, invalidate the old one; a reused refresh token should invalidate the entire family (detect theft)
