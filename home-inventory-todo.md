@@ -33,12 +33,12 @@ End state: `docker compose up` gives you Postgres, Redis, and a Fastify server t
 - [x] Wire Prisma client; run `prisma migrate dev` against local Postgres
 - [x] Add PgBouncer to `docker-compose.yml` and point Prisma's `DATABASE_URL` at it — Prisma opens one connection per query worker and will exhaust Postgres connections under any real load without a pooler
 - [x] Configure Redis with AOF persistence (`appendonly yes`) so BullMQ jobs survive a Redis restart
-- [ ] Add `/v1/health` endpoint
-- [ ] Add `@fastify/swagger` + `@fastify/swagger-ui` — OpenAPI docs live at `/docs`
-- [ ] Add `@fastify/cors`, `@fastify/helmet`, `@fastify/rate-limit`
-- [ ] Add structured logging (Pino is built in; set log levels per env)
-- [ ] Configure Caddy to reverse-proxy `api.localhost` → `api:3000` with local TLS
-- [ ] Scaffold Vitest + Supertest; write one smoke test against `/v1/health` — sets up the test harness before you write real business logic
+- [x] Add `/v1/health` endpoint
+- [x] Add `@fastify/swagger` + `@fastify/swagger-ui` — OpenAPI docs live at `/docs`
+- [x] Add `@fastify/cors`, `@fastify/helmet`, `@fastify/rate-limit`
+- [x] Add structured logging (Pino is built in; set log levels per env)
+- [x] Configure Caddy to reverse-proxy `api.localhost` → `api:3000` with local TLS
+- [x] Scaffold Vitest + Supertest; write one smoke test against `/v1/health` — sets up the test harness before you write real business logic
 - [ ] Commit; verify `curl https://api.localhost/v1/health` works
 
 ---
