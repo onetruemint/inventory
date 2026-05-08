@@ -1,4 +1,3 @@
-import {randomUUID} from 'crypto';
 import type {FastifyPluginAsync} from 'fastify';
 import bcrypt from 'bcryptjs';
 import {prisma} from '../db.js';
@@ -18,6 +17,11 @@ const TOKEN_SCHEMA = {
   },
 };
 
+const ERROR_SCHEMA = {
+  type: 'object',
+  properties: {error: {type: 'string'}},
+};
+
 const auth: FastifyPluginAsync = async app => {
   app.post('/v1/auth/register', {
     schema: {
@@ -30,7 +34,7 @@ const auth: FastifyPluginAsync = async app => {
           password: {type: 'string', minLength: 8},
         },
       },
-      response: {201: TOKEN_SCHEMA},
+      response: {201: TOKEN_SCHEMA, 409: ERROR_SCHEMA},
     },
     async handler(req, reply) {
       const {email, password} = req.body as {email: string; password: string};
@@ -73,7 +77,7 @@ const auth: FastifyPluginAsync = async app => {
           password: {type: 'string'},
         },
       },
-      response: {200: TOKEN_SCHEMA},
+      response: {200: TOKEN_SCHEMA, 401: ERROR_SCHEMA, 500: ERROR_SCHEMA},
     },
     async handler(req, reply) {
       const {email, password} = req.body as {email: string; password: string};
@@ -114,7 +118,7 @@ const auth: FastifyPluginAsync = async app => {
         required: ['refreshToken'],
         properties: {refreshToken: {type: 'string'}},
       },
-      response: {200: TOKEN_SCHEMA},
+      response: {200: TOKEN_SCHEMA, 401: ERROR_SCHEMA},
     },
     async handler(req, reply) {
       const {refreshToken} = req.body as {refreshToken: string};
