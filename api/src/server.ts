@@ -4,10 +4,12 @@ import swaggerUi from '@fastify/swagger-ui';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
+import jwt from '@fastify/jwt';
 import {registerRoutes} from './router.js';
 
 interface ServerOptions {
   rateLimit?: {max: number; timeWindow: number};
+  jwtSecret?: string;
 }
 
 export async function buildServer(
@@ -27,6 +29,9 @@ export async function buildServer(
           },
   });
 
+  await app.register(jwt, {
+    secret: opts.jwtSecret ?? process.env.JWT_SECRET ?? 'dev-secret-change-me',
+  });
   await app.register(helmet);
   await app.register(cors, {origin: true});
   await app.register(rateLimit, {
