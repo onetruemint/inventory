@@ -16,8 +16,7 @@
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "prepare": "pnpm run compile",
-    "pretest": "pnpm run compile",
+"pretest": "pnpm run compile",
     "posttest": "pnpm run lint"
   },
   "pnpm": {

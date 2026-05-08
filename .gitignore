@@ -15,7 +15,7 @@ coverage
 _docpress
 .DS_Store
 
-lib
+/lib
 dist
 tsconfig.tsbuildinfo
 tsconfig.lint.tsbuildinfo
