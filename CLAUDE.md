@@ -83,3 +83,17 @@ After changing the OpenAPI spec, regenerate the typed client:
 ```bash
 pnpm --filter shared generate
 ```
+
+## Agent skills
+
+### Issue tracker
+
+Issues and PRDs live as GitHub issues in `onetruemint/inventory`. Skills use the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Five canonical triage labels — `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix` — used as-is. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context repo. Domain language lives in `CONTEXT.md` at the root; ADRs live in `docs/adr/`. See `docs/agents/domain.md`.
