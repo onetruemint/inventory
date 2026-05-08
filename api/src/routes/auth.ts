@@ -58,9 +58,16 @@ const auth: FastifyPluginAsync = async app => {
       });
 
       const {householdId} = user.memberships[0];
-      const accessToken = app.jwt.sign({userId: user.id, householdId}, {expiresIn: '15m'});
+      const accessToken = app.jwt.sign(
+        {userId: user.id, householdId},
+        {expiresIn: '15m'},
+      );
       const refreshToken = newRefreshToken();
-      await storeRefreshToken(refreshToken, {userId: user.id, householdId, familyId: newFamilyId()});
+      await storeRefreshToken(refreshToken, {
+        userId: user.id,
+        householdId,
+        familyId: newFamilyId(),
+      });
 
       return reply.status(201).send({accessToken, refreshToken});
     },
@@ -89,22 +96,31 @@ const auth: FastifyPluginAsync = async app => {
         },
       });
 
-      const validPassword = user && (await bcrypt.compare(password, user.passwordHash));
+      const validPassword =
+        user && (await bcrypt.compare(password, user.passwordHash));
       if (!validPassword) {
         return reply.status(401).send({error: 'Invalid credentials'});
       }
 
       const householdId =
         user.memberships[0]?.householdId ??
-        (await prisma.householdMember.findFirst({where: {userId: user.id}}))?.householdId;
+        (await prisma.householdMember.findFirst({where: {userId: user.id}}))
+          ?.householdId;
 
       if (!householdId) {
         return reply.status(500).send({error: 'No household found'});
       }
 
-      const accessToken = app.jwt.sign({userId: user.id, householdId}, {expiresIn: '15m'});
+      const accessToken = app.jwt.sign(
+        {userId: user.id, householdId},
+        {expiresIn: '15m'},
+      );
       const refreshToken = newRefreshToken();
-      await storeRefreshToken(refreshToken, {userId: user.id, householdId, familyId: newFamilyId()});
+      await storeRefreshToken(refreshToken, {
+        userId: user.id,
+        householdId,
+        familyId: newFamilyId(),
+      });
 
       return {accessToken, refreshToken};
     },
@@ -125,7 +141,9 @@ const auth: FastifyPluginAsync = async app => {
 
       const result = await rotateRefreshToken(refreshToken);
       if (!result) {
-        return reply.status(401).send({error: 'Invalid or expired refresh token'});
+        return reply
+          .status(401)
+          .send({error: 'Invalid or expired refresh token'});
       }
 
       const accessToken = app.jwt.sign(

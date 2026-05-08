@@ -23,7 +23,10 @@ afterAll(async () => {
 
 const TEST_USER = {email: 'alice@test.invalid', password: 'password123'};
 
-async function register(email = TEST_USER.email, password = TEST_USER.password) {
+async function register(
+  email = TEST_USER.email,
+  password = TEST_USER.password,
+) {
   return app.inject({
     method: 'POST',
     url: '/v1/auth/register',
